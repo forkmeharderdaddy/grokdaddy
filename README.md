@@ -1,4 +1,4 @@
-# Grok for VSCode
+# Simply Grok for VSCode
 
 ## Installation
 

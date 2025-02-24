@@ -1,6 +1,6 @@
 {
   "name": "vscode-grok",
-  "displayName": "Grok for VSCode",
+  "displayName": "Simply Grok for VSCode",
   "description": "Send source files to Grok with directory structure and a question.",
   "version": "0.0.1",
   "publisher": "ErikKralj",
