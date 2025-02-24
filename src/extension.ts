@@ -4,7 +4,7 @@ import { getFilesList, readFileAsUtf8 } from "./file";
 
 export function activate(context: vscode.ExtensionContext) {
   const disposable = vscode.commands.registerCommand(
-    "grok-code-sender.sendToGrok",
+    "grok-code-sender.askGrok",
     async () => {
       // Ensure workspace folder is available
       const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
