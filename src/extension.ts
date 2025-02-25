@@ -181,6 +181,80 @@ async function handleAskGrokTab() {
   await askGrok(context.apiKey, prompt);
 }
 
+async function getActiveFunctionText(): Promise<string | undefined> {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    vscode.window.showErrorMessage("No active tab found!");
+    return;
+  }
+
+  const document = editor.document;
+  const position = editor.selection.active;
+
+  // Get all document symbols
+  const symbols = await vscode.commands.executeCommand<vscode.DocumentSymbol[]>(
+    "vscode.executeDocumentSymbolProvider",
+    document.uri
+  );
+
+  if (!symbols || symbols.length === 0) {
+    vscode.window.showErrorMessage("No symbols found!");
+    return;
+  }
+
+  // Find the function symbol that contains the cursor
+  const activeFunction = findContainingFunction(symbols, position);
+  if (!activeFunction) {
+    vscode.window.showErrorMessage("Unable to determine function!");
+    return;
+  }
+
+  // Get the full text of the function using its range
+  const functionText = document.getText(activeFunction.range);
+  return functionText;
+}
+
+function findContainingFunction(
+  symbols: vscode.DocumentSymbol[],
+  position: vscode.Position
+): vscode.DocumentSymbol | undefined {
+  for (const symbol of symbols) {
+    if (
+      symbol.kind === vscode.SymbolKind.Function || // Function symbol
+      symbol.kind === vscode.SymbolKind.Method // Method symbol
+    ) {
+      if (symbol.range.contains(position)) {
+        return symbol; // Return the symbol with its range
+      }
+    }
+
+    // Recursively check child symbols
+    if (symbol.children && symbol.children.length > 0) {
+      const childResult = findContainingFunction(symbol.children, position);
+      if (childResult) {
+        return childResult;
+      }
+    }
+  }
+}
+
+async function handleAskGrokFunction() {
+  const context = await prepareContext();
+  if (!context) {
+    return;
+  }
+
+  const funcText = await getActiveFunctionText();
+  if (!funcText) {
+    return;
+  }
+
+  // Create a message for Grok
+  const prompt = `Please consider the following function/method:\n\n${funcText}\n\nQuestion: ${context.question}`;
+
+  await askGrok(context.apiKey, prompt);
+}
+
 export function activate(context: vscode.ExtensionContext) {
   const askGrok = vscode.commands.registerCommand(
     "vscode-grok.askGrokWorkspace",
@@ -192,5 +266,10 @@ export function activate(context: vscode.ExtensionContext) {
     handleAskGrokTab
   );
 
-  context.subscriptions.push(askGrok);
+  const askGrokFunction = vscode.commands.registerCommand(
+    "vscode-grok.askGrokFunction",
+    handleAskGrokFunction
+  );
+
+  context.subscriptions.push(askGrok, askGrokTab, askGrokFunction);
 }
