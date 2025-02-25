@@ -1,9 +1,20 @@
 # Change Log
 
-All notable changes to the "vscode-grok" extension will be documented in this file.
+All notable changes to the "vscode-grok" extension will be documented in this file
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [0.0.2] - 2025-02-25
 
-## [Unreleased]
+### Added
 
-- Initial release
+- Ask Grok a question about active tab
+- Extension icon
+
+### Changed
+
+- Moved xAPI Key to VSCode settings
+
+## [0.0.1] - 2025-02-24
+
+### Added
+
+- Initial release with core functionality

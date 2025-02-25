@@ -2,12 +2,13 @@
   "name": "vscode-grok",
   "displayName": "Simply Grok for VSCode",
   "description": "Send source files to Grok with directory structure and a question.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "ErikKralj",
   "repository": {
     "type": "git",
     "url": "https://github.com/eriktodx/vscode-grok.git"
   },
+  "icon": "images/vscode-grok.png",
   "engines": {
     "vscode": "^1.97.0"
   },
@@ -16,15 +17,31 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
+    "configuration": {
+      "title": "Simply Grok for VSCode Settings",
+      "properties": {
+        "vscodeGrok.apiKey": {
+          "type": "string",
+          "default": "",
+          "description": "xAI API key for external service integration.",
+          "scope": "secret"
+        }
+      }
+    },
     "commands": [
       {
-        "command": "grok-code-sender.askGrok",
-        "title": "Ask Grok"
+        "command": "vscode-grok.askGrokWorkspace",
+        "title": "Ask Grok (workspace)"
+      },
+      {
+        "command": "vscode-grok.askGrokTab",
+        "title": "Ask Grok (current tab)"
       }
     ]
   },
   "activationEvents": [
-    "onCommand:grok-code-sender.askGrok"
+    "vscode-grok.askGrokWorkspace",
+    "vscode-grok.askGrokTab"
   ],
   "scripts": {
     "vscode:prepublish": "npm run package",

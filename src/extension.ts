@@ -2,96 +2,195 @@ import * as vscode from "vscode";
 import { sendToGrok } from "./api";
 import { getFilesList, readFileAsUtf8 } from "./file";
 
-export function activate(context: vscode.ExtensionContext) {
-  const disposable = vscode.commands.registerCommand(
-    "grok-code-sender.askGrok",
+const CONFIG_BASE = "vscodeGrok";
+const CONFIG_API_KEY = "apiKey";
+const NO_API_KEY = "";
+
+async function promptForApiKey(): Promise<string> {
+  const input = await vscode.window.showInputBox({
+    prompt: "Enter your xAI API Key",
+    password: true,
+    placeHolder: "API Key required",
+  });
+  return input?.trim() || NO_API_KEY;
+}
+
+async function saveApiKey(
+  config: vscode.WorkspaceConfiguration,
+  apiKey: string
+): Promise<void> {
+  await config.update(
+    CONFIG_API_KEY,
+    apiKey,
+    vscode.ConfigurationTarget.Global
+  );
+}
+
+async function getApiKey(): Promise<string> {
+  const config = vscode.workspace.getConfiguration(CONFIG_BASE);
+  let apiKey = config.get<string>(CONFIG_API_KEY);
+
+  if (!apiKey) {
+    apiKey = await promptForApiKey();
+    if (apiKey && apiKey !== NO_API_KEY) {
+      await saveApiKey(config, apiKey);
+    }
+  }
+
+  return apiKey;
+}
+
+async function getQuestion() {
+  return vscode.window.showInputBox({
+    prompt: "Enter your question for Grok",
+  });
+}
+
+async function prepareContext() {
+  // Ensure workspace folder is available
+  const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
+  if (!workspaceFolder) {
+    vscode.window.showErrorMessage("No workspace folder open!");
+    return;
+  }
+
+  // Get the xAI API Key
+  const apiKey = await getApiKey();
+  if (!apiKey) {
+    vscode.window.showErrorMessage("API Key is required!");
+    return;
+  }
+
+  // Get the question
+  const question = await getQuestion();
+  if (!question) {
+    vscode.window.showErrorMessage("A question is required!");
+    return;
+  }
+
+  return {
+    workspaceFolder,
+    apiKey,
+    question,
+  };
+}
+
+async function askGrok(apiKey: string, prompt: string) {
+  // Show progress as notification
+  await vscode.window.withProgress(
+    {
+      location: vscode.ProgressLocation.Notification,
+      title: "Grok is thinking...",
+      cancellable: false,
+    },
     async () => {
-      // Ensure workspace folder is available
-      const workspaceFolder = vscode.workspace.workspaceFolders?.[0];
-      if (!workspaceFolder) {
-        vscode.window.showErrorMessage("No workspace folder open!");
-        return;
+      try {
+        // Send to Grok (via xAI API)
+        const response = await sendToGrok(apiKey, prompt);
+
+        // Render each choice in its own tab with markdown format
+        (response.choices as any[]).forEach(async (choice) => {
+          const document = await vscode.workspace.openTextDocument({
+            content: choice.message.content,
+            language: "markdown",
+          });
+
+          await vscode.window.showTextDocument(document, {
+            preview: false,
+          });
+
+          vscode.window.showInformationMessage(
+            "Grok finished. You can view the response in the newly created tab(s)."
+          );
+        });
+      } catch (error) {
+        vscode.window.showErrorMessage(
+          "Error sending to Grok: " + (error as Error).message
+        );
       }
-
-      // Prompt for API Key (stored in global state for reuse)
-      let apiKey = context.globalState.get("xaiApiKey") as string;
-      if (!apiKey) {
-        apiKey =
-          (await vscode.window.showInputBox({
-            prompt: "Enter your xAI API Key",
-            password: true,
-          })) || "";
-        if (!apiKey) {
-          vscode.window.showErrorMessage("API Key is required!");
-          return;
-        }
-        context.globalState.update("xaiApiKey", apiKey);
-      }
-
-      // Get the question
-      const question = await vscode.window.showInputBox({
-        prompt: "Enter your question for Grok",
-      });
-      if (!question) {
-        vscode.window.showErrorMessage("A question is required!");
-        return;
-      }
-
-      // Get a list of all relevant files
-      const uris = await getFilesList();
-
-      // Read contents of those files
-      const content = (
-        await Promise.all([
-          ...uris.map(async (uri) => ({
-            path: uri.path,
-            content: await readFileAsUtf8(uri),
-          })),
-        ])
-      ).reduce(
-        (buffer, file) => `${buffer}\n\n${file.path}\n${file.content}`,
-        ""
-      );
-
-      // Create a message for Grok
-      const prompt = `Please consider the following project files:${content}\n\nQuestion: ${question}`;
-
-      // Show progress as notification
-      await vscode.window.withProgress(
-        {
-          location: vscode.ProgressLocation.Notification,
-          title: "Grok is thinking...",
-          cancellable: false,
-        },
-        async () => {
-          try {
-            // Send to Grok (via xAI API)
-            const response = await sendToGrok(apiKey, prompt);
-
-            // Render each choice in its own tab with markdown format
-            (response.choices as any[]).forEach(async (r) => {
-              const document = await vscode.workspace.openTextDocument({
-                content: r.message.content,
-                language: "markdown",
-              });
-
-              await vscode.window.showTextDocument(document, {
-                preview: false,
-              });
-
-              vscode.window.showInformationMessage(
-                "Grok finished. You can view the response in the newly created tab."
-              );
-            });
-          } catch (error) {
-            vscode.window.showErrorMessage(
-              "Error sending to Grok: " + (error as Error).message
-            );
-          }
-        }
-      );
     }
   );
+}
 
-  context.subscriptions.push(disposable);
+async function handleAskGrokWorkspace() {
+  const context = await prepareContext();
+  if (!context) {
+    return;
+  }
+
+  // Get a list of all relevant files
+  const uris = await getFilesList();
+  if (!uris.length) {
+    vscode.window.showErrorMessage("No files found, aborting!");
+    return;
+  }
+
+  // Read contents of those files
+  const content = (
+    await Promise.all([
+      ...uris.map(async (uri) => ({
+        path: uri.path,
+        content: await readFileAsUtf8(uri),
+      })),
+    ])
+  ).reduce((buffer, file) => `${buffer}\n\n${file.path}\n${file.content}`, "");
+
+  // Create a message for Grok
+  const prompt = `Please consider the following project files:${content}\n\nQuestion: ${context.question}`;
+
+  await askGrok(context.apiKey, prompt);
+}
+
+function getActiveTab() {
+  const editor = vscode.window.activeTextEditor;
+  if (!editor) {
+    vscode.window.showErrorMessage("No active tab found!");
+    return;
+  }
+
+  // Full path of the active file
+  const path = editor.document.uri.path;
+
+  // Get the full content of the active tab
+  const content = editor.document.getText();
+  if (!content) {
+    vscode.window.showErrorMessage("Active tab appears to be empty!");
+    return;
+  }
+
+  return {
+    path,
+    content,
+  };
+}
+
+async function handleAskGrokTab() {
+  const context = await prepareContext();
+  if (!context) {
+    return;
+  }
+
+  const tab = getActiveTab();
+  if (!tab) {
+    return;
+  }
+
+  // Create a message for Grok
+  const prompt = `Please consider the following project file:\n\n${tab.path}\n${tab.content}\n\nQuestion: ${context.question}`;
+
+  await askGrok(context.apiKey, prompt);
+}
+
+export function activate(context: vscode.ExtensionContext) {
+  const askGrok = vscode.commands.registerCommand(
+    "vscode-grok.askGrokWorkspace",
+    handleAskGrokWorkspace
+  );
+
+  const askGrokTab = vscode.commands.registerCommand(
+    "vscode-grok.askGrokTab",
+    handleAskGrokTab
+  );
+
+  context.subscriptions.push(askGrok);
 }
