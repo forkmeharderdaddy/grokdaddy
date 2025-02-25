@@ -2,6 +2,21 @@
 
 All notable changes to the "vscode-grok" extension will be documented in this file
 
+## [0.0.3] - 2025-02-25
+
+### Added
+
+- Ask Grok a question about function under cursor
+- GIF Demo
+
+### Fixed
+
+- VSCode extension context subscription
+
+### Changed
+
+- Improved README
+
 ## [0.0.2] - 2025-02-25
 
 ### Added
