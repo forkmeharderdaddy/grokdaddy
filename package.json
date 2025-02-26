@@ -31,15 +31,18 @@
     "commands": [
       {
         "command": "vscode-grok.askGrokWorkspace",
-        "title": "Ask Grok: Workspace"
+        "title": "Ask Grok: Workspace",
+        "description": "Ask Grok questions about the entire workspace, analyzing all files."
       },
       {
         "command": "vscode-grok.askGrokTab",
-        "title": "Ask Grok: Current Tab"
+        "title": "Ask Grok: Current Tab",
+        "description": "Query Grok about the contents of the currently active editor tab."
       },
       {
         "command": "vscode-grok.askGrokFunction",
-        "title": "Ask Grok: Function Under Cursor"
+        "title": "Ask Grok: Function Under Cursor",
+        "description": "Get insights or explanations from Grok about the function at the cursor position."
       }
     ]
   },
