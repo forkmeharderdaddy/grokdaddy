@@ -2,6 +2,18 @@
 
 All notable changes to the "vscode-grok" extension will be documented in this file
 
+## [0.0.4] - 2025-02-26
+
+### Added
+
+- Command descriptions
+- xAI model can now be changed via Settings
+
+### Changed
+
+- Improved README
+- Fixed activation events
+
 ## [0.0.3] - 2025-02-25
 
 ### Added
