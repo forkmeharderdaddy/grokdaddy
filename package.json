@@ -47,9 +47,9 @@
     ]
   },
   "activationEvents": [
-    "vscode-grok.askGrokWorkspace",
-    "vscode-grok.askGrokTab",
-    "vscode-grok.askGrokFunction"
+    "onCommand:vscode-grok.askGrokWorkspace",
+    "onCommand:vscode-grok.askGrokTab",
+    "onCommand:vscode-grok.askGrokFunction"
   ],
   "scripts": {
     "vscode:prepublish": "npm run package",
