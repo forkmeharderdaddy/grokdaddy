@@ -27,3 +27,29 @@ Simply Grok for VSCode integrates with the xAI API to provide its functionality.
 2. Press `Ctrl+Shift+P` to open the command palette
 3. Type "Ask Grok" and select the command
 4. Enter your xAI API key and question when prompted
+
+### Commands
+
+The following commands bring Grok right into your coding world, letting you zoom out to the whole project, zoom in on a file, or pinpoint a function—all without breaking your flow in VS Code!
+
+#### Ask Grok: Workspace
+
+This command lets you ask Grok about your entire project in Visual Studio Code. Imagine you’re working on a big coding puzzle—select this, and Grok will look at all your files and help you with questions like “What’s going on in my project?” or “Can you find something across my code?” It’s like giving Grok a map of your whole workspace to explore and assist with!
+
+#### Ask Grok: Current Tab
+
+Focus on just one file? This command has you covered. Open a file, run this, and Grok will dive into whatever’s on your current tab. Ask stuff like “What does this file do?” or “How can I fix this part?” It’s like handing Grok a single page of your notebook and getting tailored help for it.
+
+#### Ask Grok: Function Under Cursor
+
+Ever stare at a function and think, “Huh, what’s this doing?” Place your cursor on a function, use this command, and Grok will explain it or offer tips. It’s like pointing at a specific gadget in your code and having Grok say, “Oh, here’s how that works!”—super handy for quick clarity.
+
+## Contribute
+
+Love using the Simply Grok for VSCode to supercharge your coding with Grok’s smarts? We’d love for you to jump in and help make it even better! Whether you’re a pro at VS Code extensions, a wizard with ideas, or just excited to tweak something small, your contribution could make a big difference.
+
+Here’s how you can get involved:
+
+- **Share Ideas**: Got a feature in mind? Drop it in the [Issues](https://github.com/eriktodx/vscode-grok/issues) section!
+- **Fix or Add Stuff**: Feel like coding? Fork the repo, make your magic, and send us a [Pull Request](https://github.com/eriktodx/vscode-grok/pulls).
+- **Spread the Word**: Tell your friends about Simply Grok for VSCode — more users, more fun!
