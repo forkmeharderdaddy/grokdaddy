@@ -4,6 +4,7 @@ import { getFilesList, readFileAsUtf8 } from "./file";
 
 const CONFIG_BASE = "vscodeGrok";
 const CONFIG_API_KEY = "apiKey";
+const CONFIG_MODEL = "model";
 const NO_API_KEY = "";
 
 async function promptForApiKey(): Promise<string> {
@@ -40,6 +41,11 @@ async function getApiKey(): Promise<string> {
   return apiKey;
 }
 
+async function getModel(): Promise<string | undefined> {
+  const config = vscode.workspace.getConfiguration(CONFIG_BASE);
+  return config.get<string>(CONFIG_MODEL);
+}
+
 async function getQuestion() {
   return vscode.window.showInputBox({
     prompt: "Enter your question for Grok",
@@ -61,6 +67,13 @@ async function prepareContext() {
     return;
   }
 
+  // Get the xAI model
+  const model = await getModel();
+  if (!model) {
+    vscode.window.showErrorMessage("xAI model is required!");
+    return;
+  }
+
   // Get the question
   const question = await getQuestion();
   if (!question) {
@@ -71,11 +84,12 @@ async function prepareContext() {
   return {
     workspaceFolder,
     apiKey,
+    model,
     question,
   };
 }
 
-async function askGrok(apiKey: string, prompt: string) {
+async function askGrok(apiKey: string, model: string, prompt: string) {
   // Show progress as notification
   await vscode.window.withProgress(
     {
@@ -86,7 +100,7 @@ async function askGrok(apiKey: string, prompt: string) {
     async () => {
       try {
         // Send to Grok (via xAI API)
-        const response = await sendToGrok(apiKey, prompt);
+        const response = await sendToGrok(apiKey, model, prompt);
 
         // Render each choice in its own tab with markdown format
         (response.choices as any[]).forEach(async (choice) => {
@@ -138,7 +152,7 @@ async function handleAskGrokWorkspace() {
   // Create a message for Grok
   const prompt = `Please consider the following project files:${content}\n\nQuestion: ${context.question}`;
 
-  await askGrok(context.apiKey, prompt);
+  await askGrok(context.apiKey, context.model, prompt);
 }
 
 function getActiveTab() {
@@ -178,7 +192,7 @@ async function handleAskGrokTab() {
   // Create a message for Grok
   const prompt = `Please consider the following project file:\n\n${tab.path}\n${tab.content}\n\nQuestion: ${context.question}`;
 
-  await askGrok(context.apiKey, prompt);
+  await askGrok(context.apiKey, context.model, prompt);
 }
 
 async function getActiveFunctionText(): Promise<string | undefined> {
@@ -252,7 +266,7 @@ async function handleAskGrokFunction() {
   // Create a message for Grok
   const prompt = `Please consider the following function/method:\n\n${funcText}\n\nQuestion: ${context.question}`;
 
-  await askGrok(context.apiKey, prompt);
+  await askGrok(context.apiKey, context.model, prompt);
 }
 
 export function activate(context: vscode.ExtensionContext) {
