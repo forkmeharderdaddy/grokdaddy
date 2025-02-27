@@ -13,7 +13,10 @@
     "vscode": "^1.97.0"
   },
   "categories": [
-    "Other"
+    "Programming Languages",
+    "Machine Learning",
+    "AI",
+    "Chat"
   ],
   "main": "./dist/extension.js",
   "contributes": {
