@@ -44,6 +44,10 @@ Focus on just one file? This command has you covered. Open a file, run this, and
 
 Ever stare at a function and think, “Huh, what’s this doing?” Place your cursor on a function, use this command, and Grok will explain it or offer tips. It’s like pointing at a specific gadget in your code and having Grok say, “Oh, here’s how that works!”—super handy for quick clarity.
 
+#### Ask Grok: Selected Text
+
+Allows users to ask Grok a question about the currently selected text in the active tab of Visual Studio Code. This command leverages Grok's capabilities to provide insights, explanations, or answers based on the highlighted text.
+
 ## Contribute
 
 Love using the Simply Grok for VSCode to supercharge your coding with Grok’s smarts? We’d love for you to jump in and help make it even better! Whether you’re a pro at VS Code extensions, a wizard with ideas, or just excited to tweak something small, your contribution could make a big difference.
