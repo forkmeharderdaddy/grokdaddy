@@ -1,11 +1,13 @@
 import axios from "axios";
+import { API_URL } from "./const";
+
 export async function sendToGrok(
   apiKey: string,
   model: string,
   content: string
 ): Promise<any> {
   const response = await axios.post(
-    "https://api.x.ai/v1/chat/completions",
+    API_URL,
     {
       messages: [{ role: "user", content }],
       model,

@@ -39,6 +39,25 @@
             "grok-beta"
           ],
           "description": "The default xAI model to use with Grok."
+        },
+        "vscodeGrok.outputMethod": {
+          "type": "string",
+          "enum": [
+            "tab",
+            "outputChannel"
+          ],
+          "default": "tab",
+          "description": "Where to display Grok responses: 'tab' for a new editor tab, 'outputChannel' for the Output panel."
+        },
+        "vscodeGrok.showPreview": {
+          "type": "string",
+          "enum": [
+            "always",
+            "workspace-only",
+            "never"
+          ],
+          "default": "workspace-only",
+          "description": "Controls when a preview of the data being sent to the Grok API is displayed. 'always' shows a preview for all requests, 'workspace-only' shows a preview only for requests involving the entire workspace (useful for reviewing large file sets), and 'never' disables the preview entirely. Defaults to 'workspace-only' to balance usability and efficiency, as workspace requests often involve more data."
         }
       }
     },
@@ -46,24 +65,30 @@
       {
         "command": "vscode-grok.askGrokWorkspace",
         "title": "Ask Grok: Workspace",
-        "description": "Ask Grok questions about the entire workspace, analyzing all files."
+        "description": "Ask Grok a question about the entire workspace."
       },
       {
         "command": "vscode-grok.askGrokTab",
         "title": "Ask Grok: Current Tab",
-        "description": "Query Grok about the contents of the currently active editor tab."
+        "description": "Ask Grok a question about the contents of the currently active editor tab."
       },
       {
         "command": "vscode-grok.askGrokFunction",
         "title": "Ask Grok: Function Under Cursor",
-        "description": "Get insights or explanations from Grok about the function at the cursor position."
+        "description": "Ask Grok a question about the function at the cursor position."
+      },
+      {
+        "command": "vscode-grok.askGrokSelection",
+        "title": "Ask Grok: Selected Text",
+        "description": "Ask Grok a question about currently selected text in active tab."
       }
     ]
   },
   "activationEvents": [
     "onCommand:vscode-grok.askGrokWorkspace",
     "onCommand:vscode-grok.askGrokTab",
-    "onCommand:vscode-grok.askGrokFunction"
+    "onCommand:vscode-grok.askGrokFunction",
+    "onCommand:vscode-grok.askGrokSelection"
   ],
   "scripts": {
     "vscode:prepublish": "npm run package",
