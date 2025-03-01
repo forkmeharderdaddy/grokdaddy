@@ -48,6 +48,10 @@ Ever stare at a function and think, “Huh, what’s this doing?” Place your c
 
 Allows users to ask Grok a question about the currently selected text in the active tab of Visual Studio Code. This command leverages Grok's capabilities to provide insights, explanations, or answers based on the highlighted text.
 
+### Preview
+
+The `"vscodeGrok.showPreview"` setting in VS Code lets you decide when to see a sneak peek of the data being sent to the Grok API before it goes out. You can set it to `"always"` to preview every request, `"workspace-only"` to only see it for big projects involving your whole workspace (the default choice), or `"never"` to skip it entirely. When a preview pops up, it shows the data in a little window with "Send" and "Cancel" buttons, so you can double-check and either approve or stop it—handy for catching mistakes or keeping things private, all while keeping your workflow smooth.
+
 ## Contribute
 
 Love using the Simply Grok for VSCode to supercharge your coding with Grok’s smarts? We’d love for you to jump in and help make it even better! Whether you’re a pro at VS Code extensions, a wizard with ideas, or just excited to tweak something small, your contribution could make a big difference.
