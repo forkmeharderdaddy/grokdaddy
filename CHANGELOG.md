@@ -2,6 +2,12 @@
 
 All notable changes to the "vscode-grok" extension will be documented in this file
 
+## Version 0.0.6 (March 01, 2025)
+
+### Changed
+
+- Updated README.md and dumping version for post verification of VSCode Marketplace publisher id
+
 ## Version 0.0.5 (March 01, 2025)
 
 ### Added
