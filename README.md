@@ -3,6 +3,7 @@
 [![Version](https://img.shields.io/badge/Version-0.0.6-green)](https://github.com/eriktodx/vscode-grok/releases)
 [![GitHub](https://img.shields.io/badge/GitHub-vscode--grok-blue)](https://github.com/eriktodx/vscode-grok)
 [![VSCode Extension](https://img.shields.io/badge/VSCode_Extension-Simply_Grok_for_VSCode-red)](https://marketplace.visualstudio.com/items?itemName=ErikKralj.vscode-grok)
+[![Open VSX Registry](https://img.shields.io/badge/Open_VSX-Simply_Grok_for_VSCode-purple)](https://open-vsx.org/extension/ErikKralj/vscode-grok)
 
 This extension enables you to easily ask Grok any question about your source code directly from within VSCode via [xAI API](https://x.ai/api).
 
