@@ -2,6 +2,12 @@
 
 All notable changes to the "vscode-grok" extension will be documented in this file
 
+## Version 0.0.7 (April 16, 2025)
+
+### Added
+
+- Add model selection guide and supported Grok models list to README
+
 ## Version 0.0.6 (March 01, 2025)
 
 ### Changed
