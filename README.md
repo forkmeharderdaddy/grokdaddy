@@ -29,6 +29,23 @@ Simply Grok for VSCode integrates with the xAI API to provide its functionality.
 3. Type "Ask Grok" and select the command
 4. Enter your xAI API key and question when prompted
 
+### Models
+
+The default model is `grok-2`, but you can easily switch to another model through the **Settings** menu. Navigate to **Settings**, search for **Grok**, and update the **Model** field to your preferred option.
+
+#### Supported Grok Models
+The following models are currently available:
+- `grok-3-fast`: Optimized for speed with high performance.
+- `grok-3-mini-fast`: A compact, high-speed model for lightweight tasks.
+- `grok-3-mini`: A smaller model for efficient processing.
+- `grok-3`: A powerful model for complex tasks.
+- `grok-2-vision`: Supports vision-based inputs alongside text.
+- `grok-2` (default): A versatile, general-purpose model.
+- `grok-vision-beta`: An experimental model for vision and text processing.
+- `grok-beta`: An early-access model for testing new features.
+
+For more details on each model, refer to the [Grok Models Documentation](https://docs.x.ai/docs/models).
+
 ### Commands
 
 The following commands bring Grok right into your coding world, letting you zoom out to the whole project, zoom in on a file, or pinpoint a function—all without breaking your flow in VS Code!
