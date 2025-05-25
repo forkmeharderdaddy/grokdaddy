@@ -2,6 +2,17 @@
 
 All notable changes to the "vscode-grok" extension will be documented in this file
 
+## Version 1.0.0 (May 25, 2025)
+
+### Changed
+
+- Lowered VSCode engine requirement to 1.70.0
+- Removed workspace requirement from:
+  - Ask Grok: Current Tab
+  - Ask Grok: Function Under Cursor
+  - Ask Grok: Selected Text
+- Improved/simplified README
+
 ## Version 0.0.7 (April 16, 2025)
 
 ### Added
