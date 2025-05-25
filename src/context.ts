@@ -44,10 +44,17 @@ export async function ensureModel(): Promise<string> {
   return model;
 }
 
-export async function prepareContext(skipQuestion?: boolean): Promise<Context> {
+export async function prepareWorkspaceContext(): Promise<Context> {
   const workspaceFolder = await ensureWorkspaceOpen();
+  return {
+    workspaceFolder,
+    ...await prepareContext(),
+  };
+}
+
+export async function prepareContext(): Promise<Context> {
   const apiKey = await ensureApiKey();
   const model = await ensureModel();
-  const question = skipQuestion ? "" : await ensureQuestion();
-  return { workspaceFolder, apiKey, model, question };
+  const question = await ensureQuestion();
+  return { apiKey, model, question };
 }

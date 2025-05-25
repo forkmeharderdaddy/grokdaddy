@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 import { sendToGrok } from "./api";
-import { prepareContext } from "./context";
+import { prepareContext, prepareWorkspaceContext } from "./context";
 import { displayResponse } from "./display";
 import { getMessage } from "./message";
 import { handleGrokPreview } from "./preview";
@@ -26,7 +26,10 @@ async function handleSendToGrok(
 
 async function handleAskGrok(type: MessageType): Promise<void> {
   try {
-    const context = await prepareContext();
+    const context =
+      type === "workspace"
+        ? await prepareWorkspaceContext()
+        : await prepareContext();
     if (!context) {
       return;
     }
