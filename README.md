@@ -7,6 +7,10 @@
 
 A Visual Studio Code extension that integrates with the xAI API to allow developers to ask Grok questions about their codebase directly within the editor. Get insights on your entire workspace, specific files, functions, or selected code snippets with ease.
 
+## Demo
+
+![Demo GIF](resources/demo1.gif)
+
 ## Features
 
 - **Ask Grok: Workspace** - Query Grok about your entire project to get a comprehensive overview or solve cross-file issues.
