@@ -5,77 +5,87 @@
 [![VSCode Extension](https://img.shields.io/badge/VSCode_Extension-Simply_Grok_for_VSCode-red)](https://marketplace.visualstudio.com/items?itemName=ErikKralj.vscode-grok)
 [![Open VSX Registry](https://img.shields.io/badge/Open_VSX-Simply_Grok_for_VSCode-purple)](https://open-vsx.org/extension/ErikKralj/vscode-grok)
 
-This extension enables you to easily ask Grok any question about your source code directly from within VSCode via [xAI API](https://x.ai/api).
+A Visual Studio Code extension that integrates with the xAI API to allow developers to ask Grok questions about their codebase directly within the editor. Get insights on your entire workspace, specific files, functions, or selected code snippets with ease.
 
-## Disclaimer
+## Features
 
-Simply Grok for VSCode integrates with the xAI API to provide its functionality. Please note that usage of the xAI API may incur costs depending on your subscription plan with xAI. Users are responsible for any fees charged by xAI for API access. Review [xAI's pricing](https://docs.x.ai/docs/models) details to understand potential costs before using this extension. This extension is independently developed and is in no way affiliated with or endorsed by xAI.
-
-## Demo
-
-![Demo GIF](resources/demo1.gif)
+- **Ask Grok: Workspace** - Query Grok about your entire project to get a comprehensive overview or solve cross-file issues.
+- **Ask Grok: Current Tab** - Focus on the active file and ask questions specific to its content.
+- **Ask Grok: Function Under Cursor** - Get explanations or suggestions for the function or method at your cursor position.
+- **Ask Grok: Selected Text** - Highlight code and ask Grok for insights or assistance on just that selection.
+- **Customizable Output** - Choose to display Grok's responses in a new editor tab or the Output panel.
+- **Data Preview** - Review the data being sent to the Grok API before submission, with configurable settings for when previews appear.
+- **Model Selection** - Select from a variety of Grok models (e.g., `grok-2`, `grok-3-fast`) to suit your needs.
 
 ## Installation
 
-1. Open VS Code
-2. Go to the Extensions view
-3. Search for "Simply Grok for VSCode"
-4. Click Install
+1. Open Visual Studio Code.
+2. Navigate to the Extensions view (`Ctrl+Shift+X` or `Cmd+Shift+X` on macOS).
+3. Search for **Simply Grok for VSCode**.
+4. Click **Install** to add the extension.
 
 ## Usage
 
-1. Open a project in VS Code
-2. Press `Ctrl+Shift+P` to open the command palette
-3. Type "Ask Grok" and select the command
-4. Enter your xAI API key and question when prompted
+1. Open a project or file in VSCode.
+2. Access the Command Palette (`Ctrl+Shift+P` or `Cmd+Shift+P` on macOS).
+3. Search for and select one of the "Ask Grok" commands:
+   - `Ask Grok: Workspace`
+   - `Ask Grok: Current Tab`
+   - `Ask Grok: Function Under Cursor`
+   - `Ask Grok: Selected Text`
+4. Enter your xAI API key if prompted (stored securely in settings).
+5. Type your question for Grok and submit.
+6. View the response in a new tab or the Output panel, based on your settings.
 
-### Models
+### Configuration
 
-The default model is `grok-2`, but you can easily switch to another model through the **Settings** menu. Navigate to **Settings**, search for **Grok**, and update the **Model** field to your preferred option.
+Customize the extension via the VSCode Settings UI or `settings.json`:
 
-#### Supported Grok Models
-The following models are currently available:
-- `grok-3-fast`: Optimized for speed with high performance.
-- `grok-3-mini-fast`: A compact, high-speed model for lightweight tasks.
-- `grok-3-mini`: A smaller model for efficient processing.
-- `grok-3`: A powerful model for complex tasks.
-- `grok-2-vision`: Supports vision-based inputs alongside text.
-- `grok-2` (default): A versatile, general-purpose model.
-- `grok-vision-beta`: An experimental model for vision and text processing.
-- `grok-beta`: An early-access model for testing new features.
+- **xAI API Key**: Store your API key securely (`vscodeGrok.apiKey`).
+- **Model**: Choose the Grok model to use (`vscodeGrok.model`), with options like `grok-2` (default), `grok-3-fast`, and more.
+- **Output Method**: Decide where responses appear (`vscodeGrok.outputMethod`): `tab` (default) or `outputChannel`.
+- **Show Preview**: Control when to preview data sent to Grok (`vscodeGrok.showPreview`): `always`, `workspace-only` (default), or `never`.
 
-For more details on each model, refer to the [Grok Models Documentation](https://docs.x.ai/docs/models).
+### Supported Models
 
-### Commands
+- `grok-3-fast`: High-speed, high-performance model.
+- `grok-3-mini-fast`: Compact and fast for lightweight tasks.
+- `grok-3-mini`: Efficient smaller model.
+- `grok-3`: Powerful model for complex queries.
+- `grok-2-vision`: Supports text and vision inputs.
+- `grok-2`: Versatile general-purpose model (default).
+- `grok-vision-beta`: Experimental vision and text model.
+- `grok-beta`: Early-access model for testing.
 
-The following commands bring Grok right into your coding world, letting you zoom out to the whole project, zoom in on a file, or pinpoint a function—all without breaking your flow in VS Code!
+For more information, see the [xAI Models Documentation](https://docs.x.ai/docs/models).
 
-#### Ask Grok: Workspace
+## Requirements
 
-This command lets you ask Grok about your entire project in Visual Studio Code. Imagine you’re working on a big coding puzzle—select this, and Grok will look at all your files and help you with questions like “What’s going on in my project?” or “Can you find something across my code?” It’s like giving Grok a map of your whole workspace to explore and assist with!
+- An active xAI API key (obtainable from [xAI](https://x.ai/api)).
+- VSCode version 1.70.0 or higher.
 
-#### Ask Grok: Current Tab
+## Disclaimer
 
-Focus on just one file? This command has you covered. Open a file, run this, and Grok will dive into whatever’s on your current tab. Ask stuff like “What does this file do?” or “How can I fix this part?” It’s like handing Grok a single page of your notebook and getting tailored help for it.
+This extension uses the xAI API, which may incur costs based on your usage and subscription plan with xAI. You are responsible for any associated fees. Please review [xAI's pricing](https://docs.x.ai/docs/models) before using this extension. Simply Grok for VSCode is an independent project and is not affiliated with or endorsed by xAI.
 
-#### Ask Grok: Function Under Cursor
+## Contributing
 
-Ever stare at a function and think, “Huh, what’s this doing?” Place your cursor on a function, use this command, and Grok will explain it or offer tips. It’s like pointing at a specific gadget in your code and having Grok say, “Oh, here’s how that works!”—super handy for quick clarity.
+We welcome contributions to improve Simply Grok for VSCode! Here's how you can help:
 
-#### Ask Grok: Selected Text
+- **Report Issues**: Submit bugs or feature requests on the [GitHub Issues page](https://github.com/eriktodx/vscode-grok/issues).
+- **Submit Pull Requests**: Fork the repository, make changes, and submit a PR at [GitHub Pull Requests](https://github.com/eriktodx/vscode-grok/pulls).
+- **Share Feedback**: Let us know how we can make this extension better.
 
-Allows users to ask Grok a question about the currently selected text in the active tab of Visual Studio Code. This command leverages Grok's capabilities to provide insights, explanations, or answers based on the highlighted text.
+## License
 
-### Preview
+This extension is licensed under the [MIT License](LICENSE). See the license file for more details.
 
-The `"vscodeGrok.showPreview"` setting in VS Code lets you decide when to see a sneak peek of the data being sent to the Grok API before it goes out. You can set it to `"always"` to preview every request, `"workspace-only"` to only see it for big projects involving your whole workspace (the default choice), or `"never"` to skip it entirely. When a preview pops up, it shows the data in a little window with "Send" and "Cancel" buttons, so you can double-check and either approve or stop it—handy for catching mistakes or keeping things private, all while keeping your workflow smooth.
+## Links
 
-## Contribute
+- **GitHub Repository**: [https://github.com/eriktodx/vscode-grok](https://github.com/eriktodx/vscode-grok)
+- **VSCode Marketplace**: [Simply Grok for VSCode](https://marketplace.visualstudio.com/items?itemName=ErikKralj.vscode-grok)
+- **Open VSX Registry**: [Simply Grok for VSCode](https://open-vsx.org/extension/ErikKralj/vscode-grok)
 
-Love using the Simply Grok for VSCode to supercharge your coding with Grok’s smarts? We’d love for you to jump in and help make it even better! Whether you’re a pro at VS Code extensions, a wizard with ideas, or just excited to tweak something small, your contribution could make a big difference.
+---
 
-Here’s how you can get involved:
-
-- **Share Ideas**: Got a feature in mind? Drop it in the [Issues](https://github.com/eriktodx/vscode-grok/issues) section!
-- **Fix or Add Stuff**: Feel like coding? Fork the repo, make your magic, and send us a [Pull Request](https://github.com/eriktodx/vscode-grok/pulls).
-- **Spread the Word**: Tell your friends about Simply Grok for VSCode — more users, more fun!
+Enhance your coding experience with Grok's AI assistance right in VSCode!
