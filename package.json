@@ -33,6 +33,7 @@
           "type": "string",
           "default": "grok-2",
           "enum": [
+            "grok-4-0709",
             "grok-3-fast",
             "grok-3-mini-fast",
             "grok-3-mini",
